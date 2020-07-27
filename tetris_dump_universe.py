@@ -1,5 +1,7 @@
 import sys
 import pygame
+from settings import Settings
+from fighter import Fighter
 
 
 class TetrisDumpUniverse:
@@ -7,14 +9,22 @@ class TetrisDumpUniverse:
 
     def __init__(self):
         """Inits game and create game resources"""
-        # inits background setting for pygame
+        # * inits background setting for pygame
         pygame.init()
+
         # * creates Surface display window, for drawing game
-        # self.screen makes the Surface available in all methods of the class
+        # instance of Settings
+        self.settings = Settings()
+
+        # *  create screen
         self.screen = pygame.display.set_mode(
-            (1200, 800))  # dimensions of Surface
+            (self.settings.screen_width, self.settings.screen_height))
 
         pygame.display.set_caption("Tetris Dump Universe")
+
+        # * Fighter instance
+        # Fighter requires one instance of TDU game so we pass self for the current intance of the TDU game class
+        self.figther = Fighter(self)
 
     def run_game(self):
         """Start main loop for the game"""
@@ -24,6 +34,10 @@ class TetrisDumpUniverse:
             for event in pygame.event.get():  # returns list of events
                 if event.type == pygame.QUIT:
                     sys.exit()
+
+            # Redraw the screen during each pass through the loop
+            self.screen.fill(self.settings.bg_color)
+            self.figther.blitme()
 
             # Make the most recently drawn screen visible (updates loc of game elements)
             pygame.display.flip()
