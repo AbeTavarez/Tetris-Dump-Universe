@@ -16,9 +16,15 @@ class TetrisDumpUniverse:
         # instance of Settings
         self.settings = Settings()
 
-        # *  create screen
+        # *  Create CUSTOM screen
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
+
+        # *  Create FULLSCREEN
+        # self.screen = pygame.display.set_mode(
+        #     (0, 0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
 
         pygame.display.set_caption("Tetris Dump Universe")
 
@@ -27,7 +33,8 @@ class TetrisDumpUniverse:
         self.figther = Fighter(self)
 
 
-# *********************** FUNCTION *********************************************
+# *********************** FUNCTIONS *********************************************
+
 
     def run_game(self):
         """Start main loop for the game"""
@@ -57,6 +64,8 @@ class TetrisDumpUniverse:
         elif event.key == pygame.K_LEFT:
             # Move the fighter left
             self.figther.moving_left = True
+        elif event.key == pygame.K_q:
+            sys.exit()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
