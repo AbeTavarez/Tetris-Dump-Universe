@@ -44,18 +44,25 @@ class TetrisDumpUniverse:
                 sys.exit()
             # * On KEYDOWN = True
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    # Move the fighter to the right
-                    self.figther.moving_right = True
-                elif event.key == pygame.K_LEFT:
-                    # Move the fighter left
-                    self.figther.moving_left = True
+                self._check_keydown_events(event)
+
             # * On KEYUP = False
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.figther.moving_right = False
-                elif event.key == pygame.K_LEFT:
-                    self.figther.moving_left = False
+                self._check_keyup_events(event)
+
+    def _check_keydown_events(self, event):
+        if event.key == pygame.K_RIGHT:
+            # Move the fighter to the right
+            self.figther.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            # Move the fighter left
+            self.figther.moving_left = True
+
+    def _check_keyup_events(self, event):
+        if event.key == pygame.K_RIGHT:
+            self.figther.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.figther.moving_left = False
 
     def _update_screen(self):
         # Redraw the screen during each pass through the loop
@@ -63,6 +70,8 @@ class TetrisDumpUniverse:
         self.figther.blitme()
         # Make the most recently drawn screen visible (updates loc of game elements)
         pygame.display.flip()
+
+# *********************** INIT ********************************************
 
 
 if __name__ == '__main__':
