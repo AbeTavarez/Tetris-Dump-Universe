@@ -6,4 +6,4 @@ class Settings:
     def __init__(self):
         self.screen_width = 1200  # dimensions of Surface
         self.screen_height = 800
-        self.bg_color = (230, 230, 230)  # Sets screen bg (background) color
+        self.bg_color = (54, 54, 54)  # Sets screen bg (background) color

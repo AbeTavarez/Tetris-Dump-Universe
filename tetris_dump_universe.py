@@ -32,15 +32,30 @@ class TetrisDumpUniverse:
         while True:
             # Event Loop: Watch for keyboard and mouse events
             self._check_events()
-            self._update_screen
+            self.figther.update()
+            self._update_screen()
 
     def _check_events(self):
         for event in pygame.event.get():  # returns list of events
             if event.type == pygame.QUIT:
                 sys.exit()
+            # * On KEYDOWN = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    # Move the fighter to the right
+                    self.figther.moving_right = True
+                elif event.key == pygame.K_LEFT:
+                    # Move the fighter left
+                    self.figther.moving_left = True
+            # * On KEYUP = False
+            elif event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    self.figther.moving_right = False
+                elif event.key == pygame.K_LEFT:
+                    self.figther.moving_left = False
 
     def _update_screen(self):
-      # Redraw the screen during each pass through the loop
+        # Redraw the screen during each pass through the loop
         self.screen.fill(self.settings.bg_color)
         self.figther.blitme()
         # Make the most recently drawn screen visible (updates loc of game elements)
