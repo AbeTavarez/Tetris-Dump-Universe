@@ -2,6 +2,7 @@ import sys
 import pygame
 from settings import Settings
 from fighter import Fighter
+from bullet import Bullet
 
 
 class TetrisDumpUniverse:
@@ -16,11 +17,11 @@ class TetrisDumpUniverse:
         # instance of Settings
         self.settings = Settings()
 
-        # *  Create CUSTOM screen
+        # *  ASSIGNS MAIN DISPLAY SURFACE
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
 
-        # *  Create FULLSCREEN
+        # *  CREATE FULLSCREEN
         # self.screen = pygame.display.set_mode(
         #     (0, 0), pygame.FULLSCREEN)
         # self.settings.screen_width = self.screen.get_rect().width
@@ -28,24 +29,29 @@ class TetrisDumpUniverse:
 
         pygame.display.set_caption("Tetris Dump Universe")
 
-        # * Fighter instance
+        # * FIGHTER INSTANCE
         # Fighter requires one instance of TDU game so we pass self for the current intance of the TDU game class
         self.figther = Fighter(self)
+
+        # * BULLETS INSTANCES
+        self.bullets = pygame.sprite.Group()
 
 
 # *********************** FUNCTIONS *********************************************
 
 
     def run_game(self):
-        """Start main loop for the game"""
+        """Start MAIN LOOP for the game"""
         # while loop: manage Event loop and Screen updates
         while True:
             # Event Loop: Watch for keyboard and mouse events
             self._check_events()
             self.figther.update()
+            self.bullets.update()
             self._update_screen()
 
     def _check_events(self):
+        """DETECTS REVELANT USER INPUT EVENTS"""
         for event in pygame.event.get():  # returns list of events
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -66,6 +72,9 @@ class TetrisDumpUniverse:
             self.figther.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+            # shoots bullet
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -73,10 +82,19 @@ class TetrisDumpUniverse:
         elif event.key == pygame.K_LEFT:
             self.figther.moving_left = False
 
+    def _fire_bullet(self):
+        """Create a new bullet and add it to the bullets group"""
+        new_bullet = Bullet(self)
+        self.bullets.add(new_bullet)
+
     def _update_screen(self):
-        # Redraw the screen during each pass through the loop
+        """Redraw the screen during each pass through the loop"""
         self.screen.fill(self.settings.bg_color)
         self.figther.blitme()
+        # bullets.sprite returns a list of all sprites in bullets
+        for bullet in self.bullets.sprites():
+            # calls draw_bullet() on bullet
+            bullet.draw_bullet()
         # Make the most recently drawn screen visible (updates loc of game elements)
         pygame.display.flip()
 
@@ -84,6 +102,6 @@ class TetrisDumpUniverse:
 
 
 if __name__ == '__main__':
-    # Make a game instance and run the game
+    # * Make a game instance and run the game
     tdu = TetrisDumpUniverse()
     tdu.run_game()

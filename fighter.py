@@ -44,5 +44,5 @@ class Fighter:
         self.rect.x = self.x
 
     def blitme(self):
-        """Draw the ship at its current location"""
+        """Draw the fighter to the screen"""
         self.screen.blit(self.image, self.rect)
