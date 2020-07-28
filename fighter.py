@@ -7,6 +7,11 @@ class Fighter:
         # tdu_game is an instance of the Tetris Dump Universe, giving Fighter access to all the game resources from tdu
         # assign screen to an attribute of Fighter for easy access
         self.screen = tdu_game.screen
+
+        # setting attribute to be use in update() method
+        # so we can update the fighter position by a fraction of a pixel
+        self.settings = tdu_game.settings
+
         # gets the screen rect att and assign it to self, to place the fighter on desire location
         self.screen_rect = tdu_game.screen.get_rect()
 
@@ -18,17 +23,24 @@ class Fighter:
         # Start each new ship at bottom center of the screen
         self.rect.midbottom = self.screen_rect.midbottom  # matching fighter with screen
 
+        # Store a decimal value for the fighter's horizontal position
+        self.x = float(self.rect.x)
+
         # * Movement flag
         self.moving_right = False
         self.moving_left = False
 
     def update(self):
         """Update the ship's position based on the movement flag"""
+        # Update the shop's x value not the rect
         if self.moving_right:
-            self.rect.x += 1
+            self.x += self.settings.fighter_speed
 
         if self.moving_left:
-            self.rect.x -= 1
+            self.x -= self.settings.fighter_speed
+
+        # Update rect object from self.x
+        self.rect.x = self.x
 
     def blitme(self):
         """Draw the ship at its current location"""
