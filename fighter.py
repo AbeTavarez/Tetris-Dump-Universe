@@ -33,10 +33,11 @@ class Fighter:
     def update(self):
         """Update the ship's position based on the movement flag"""
         # Update the shop's x value not the rect
-        if self.moving_right:
+        # we check if the value of location is less than the right size of the screen
+        if self.moving_right and self.rect.right < self.screen_rect.right:
             self.x += self.settings.fighter_speed
-
-        if self.moving_left:
+        # we check if the value of location is less than the left size of the screen
+        if self.moving_left and self.rect.left > 0:
             self.x -= self.settings.fighter_speed
 
         # Update rect object from self.x

@@ -26,6 +26,9 @@ class TetrisDumpUniverse:
         # Fighter requires one instance of TDU game so we pass self for the current intance of the TDU game class
         self.figther = Fighter(self)
 
+
+# *********************** FUNCTION *********************************************
+
     def run_game(self):
         """Start main loop for the game"""
         # while loop: manage Event loop and Screen updates
