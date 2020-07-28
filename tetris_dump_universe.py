@@ -31,7 +31,7 @@ class TetrisDumpUniverse:
 
         # * FIGHTER INSTANCE
         # Fighter requires one instance of TDU game so we pass self for the current intance of the TDU game class
-        self.figther = Fighter(self)
+        self.fighter = Fighter(self)
 
         # * BULLETS INSTANCES
         self.bullets = pygame.sprite.Group()
@@ -46,7 +46,7 @@ class TetrisDumpUniverse:
         while True:
             # Event Loop: Watch for keyboard and mouse events
             self._check_events()
-            self.figther.update()
+            self.fighter.update()
             self.bullets.update()
             self._update_screen()
 
@@ -66,10 +66,10 @@ class TetrisDumpUniverse:
     def _check_keydown_events(self, event):
         if event.key == pygame.K_RIGHT:
             # Move the fighter to the right
-            self.figther.moving_right = True
+            self.fighter.moving_right = True
         elif event.key == pygame.K_LEFT:
             # Move the fighter left
-            self.figther.moving_left = True
+            self.fighter.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
             # shoots bullet
@@ -78,9 +78,9 @@ class TetrisDumpUniverse:
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
-            self.figther.moving_right = False
+            self.fighter.moving_right = False
         elif event.key == pygame.K_LEFT:
-            self.figther.moving_left = False
+            self.fighter.moving_left = False
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group"""
@@ -90,7 +90,7 @@ class TetrisDumpUniverse:
     def _update_screen(self):
         """Redraw the screen during each pass through the loop"""
         self.screen.fill(self.settings.bg_color)
-        self.figther.blitme()
+        self.fighter.blitme()
         # bullets.sprite returns a list of all sprites in bullets
         for bullet in self.bullets.sprites():
             # calls draw_bullet() on bullet
