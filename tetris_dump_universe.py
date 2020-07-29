@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from fighter import Fighter
 from bullet import Bullet
+from alien import Alien
 
 
 class TetrisDumpUniverse:
@@ -35,6 +36,10 @@ class TetrisDumpUniverse:
 
         # * BULLETS INSTANCES
         self.bullets = pygame.sprite.Group()
+
+        # * ALIEN GROUP INSTANCE
+        self.aliens = pygame.sprite.Group()
+        self._create_fleet()
 
 
 # *********************** FUNCTIONS *********************************************
@@ -96,6 +101,13 @@ class TetrisDumpUniverse:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
 
+    def _create_fleet(self):
+        """Create the fleet of alien"""
+        # Make an alien
+        alien = Alien(self)
+        # adds alien to group
+        self.aliens.add(alien)
+
     def _update_screen(self):
         """Redraw the screen during each pass through the loop"""
         self.screen.fill(self.settings.bg_color)
@@ -104,6 +116,9 @@ class TetrisDumpUniverse:
         for bullet in self.bullets.sprites():
             # calls draw_bullet() on bullet
             bullet.draw_bullet()
+
+        # adds or draw aliens to screen
+        self.aliens.draw(self.screen)
         # Make the most recently drawn screen visible (updates loc of game elements)
         pygame.display.flip()
 
