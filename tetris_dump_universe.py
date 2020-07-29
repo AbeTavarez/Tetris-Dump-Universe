@@ -44,6 +44,7 @@ class TetrisDumpUniverse:
 
 # *********************** FUNCTIONS *********************************************
 
+
     def run_game(self):
         """Start MAIN LOOP for the game"""
         # while loop: manage Event loop and Screen updates
@@ -103,10 +104,24 @@ class TetrisDumpUniverse:
 
     def _create_fleet(self):
         """Create the fleet of alien"""
-        # Make an alien
-        alien = Alien(self)
-        # adds alien to group
-        self.aliens.add(alien)
+        # Create an alien and find the number of aliens in a row
+        # Spacing between each alien is equal to the one alien width
+        alien = Alien(self)  # Make an alien for calculations
+        alien_width = alien.rect.width  # get alien width
+        # Calc horizontal space available for aliens and the number of aliensthat can fit
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_alien_x = available_space_x // (2 * alien_width)
+
+        # Create fleet of aliens
+        for alien_number in range(number_alien_x):
+            # Create an alien and place it in the row
+            alien = Alien(self)
+            # each alien is push to the right 1 alien width of space from the left margin
+            # Calc:The alien width * 2  to account for the empty spaceincluding the empty space to the right the * by the alien's position.
+            alien.x = alien_width + 2 * alien_width * alien_number
+            alien.rect.x = alien.x
+            # adds alien to group
+            self.aliens.add(alien)
 
     def _update_screen(self):
         """Redraw the screen during each pass through the loop"""

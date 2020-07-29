@@ -11,7 +11,7 @@ class Alien(Sprite):
         self.screen = tdu_game.screen
 
         # * Load alien image and set its rect attribute
-        self.image = pygame.image.load("images/element_red_diamond.bmp")
+        self.image = pygame.image.load("images/green.bmp")
         self.rect = self.image.get_rect()
 
         # * Start each new alien near the top left of the screen
