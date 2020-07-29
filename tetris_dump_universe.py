@@ -44,7 +44,6 @@ class TetrisDumpUniverse:
 
 # *********************** FUNCTIONS *********************************************
 
-
     def run_game(self):
         """Start MAIN LOOP for the game"""
         # while loop: manage Event loop and Screen updates
@@ -107,21 +106,36 @@ class TetrisDumpUniverse:
         # Create an alien and find the number of aliens in a row
         # Spacing between each alien is equal to the one alien width
         alien = Alien(self)  # Make an alien for calculations
-        alien_width = alien.rect.width  # get alien width
+        alien_width, alien_height = alien.rect.size
+        # alien_width = alien.rect.width  # get alien width
+
         # Calc horizontal space available for aliens and the number of aliensthat can fit
         available_space_x = self.settings.screen_width - (2 * alien_width)
         number_alien_x = available_space_x // (2 * alien_width)
 
+        # Determinate the number of rows of alien that fit on the screen
+        fighter_height = self.fighter.rect.height
+        available_space_y = (self.settings.screen_height -
+                             (10 * alien_height) - fighter_height)
+        number_rows = available_space_y // (2 * alien_height)
+
         # Create fleet of aliens
-        for alien_number in range(number_alien_x):
-            # Create an alien and place it in the row
-            alien = Alien(self)
-            # each alien is push to the right 1 alien width of space from the left margin
-            # Calc:The alien width * 2  to account for the empty spaceincluding the empty space to the right the * by the alien's position.
-            alien.x = alien_width + 2 * alien_width * alien_number
-            alien.rect.x = alien.x
-            # adds alien to group
-            self.aliens.add(alien)
+        for row_number in range(number_rows):
+            for alien_number in range(number_alien_x):
+                self._create_alien(alien_number, row_number)
+
+    def _create_alien(self, alien_number, row_number):
+        """Create an alien and place it in the row"""
+        alien = Alien(self)
+        alien_width, alien_height = alien.rect.size
+        # each alien is push to the right 1 alien width of space from the left margin
+        # Calc:The alien width * 2  to account for the empty spaceincluding the empty space to the right the * by the alien's position.
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        # adds alien to group
+        self.aliens.add(alien)
 
     def _update_screen(self):
         """Redraw the screen during each pass through the loop"""
