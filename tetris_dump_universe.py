@@ -44,6 +44,7 @@ class TetrisDumpUniverse:
 
 # *********************** FUNCTIONS *********************************************
 
+
     def run_game(self):
         """Start MAIN LOOP for the game"""
         # while loop: manage Event loop and Screen updates
@@ -53,6 +54,7 @@ class TetrisDumpUniverse:
             self.fighter.update()
             self.bullets.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):
@@ -100,6 +102,10 @@ class TetrisDumpUniverse:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _update_aliens(self):
+        """Update the position of all aliens ion the fleet"""
+        self.aliens.update()
 
     def _create_fleet(self):
         """Create the fleet of alien"""
